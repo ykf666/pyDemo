@@ -37,9 +37,24 @@ def getquan2():
             time.sleep(0.2)
 
 
+# 2019年春节假期五折券
+def getquan3():
+    i = 120
+    while True:
+        i = i - 1
+        if i < 0:
+            break
+        else:
+            resp = pool.request('POST', 'http://mktm.zuche.com/weika/getQuan.do?'
+                                        'mobile=18701685341&szhdbm=&from=sfspike')
+            res_data = resp.data.decode('utf-8')
+            print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()), resp.status, res_data)
+            time.sleep(0.2)
+
+
 if __name__ == "__main__":
     sched = BlockingScheduler()
-    sched.add_job(getquan2, trigger="cron", hour=9, minute=59, second=40)
+    sched.add_job(getquan3, trigger="cron", hour=21, minute=55, second=50)
     print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
     try:
         sched.start()
